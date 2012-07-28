@@ -3,6 +3,32 @@
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
+	
+	
+	<context-param>
+		<param-name>jdbcDriverName</param-name>
+		<param-value>com.mysql.jdbc.Driver</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>jdbcUrl</param-name>
+		<param-value>jdbc:mysql://localhost:3306/minslertest</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>jdbcUser</param-name>
+		<param-value>root</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>jdbcPassword</param-name>
+		<param-value>1234</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>logFileProperties</param-name>
+		<param-value>WEB-INF/log4j.properties</param-value>
+	</context-param>
 
 	<servlet>
 		<servlet-name>receiverServlet</servlet-name>
@@ -12,6 +38,16 @@
 		<servlet-name>receiverServlet</servlet-name>
 		<url-pattern>/receiver</url-pattern>
 	</servlet-mapping>
+	
+	<listener>
+		<display-name>Init DB connection</display-name>
+		<listener-class>by.minsler.db.ConnectionInit</listener-class>
+	</listener>
+	
+	<listener>
+		<display-name>Init Log4j</display-name>
+		<listener-class>by.minsler.log.Log4jInit</listener-class>
+	</listener>
 
 </web-app>
 

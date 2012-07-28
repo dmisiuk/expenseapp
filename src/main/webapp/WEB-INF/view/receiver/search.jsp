@@ -13,7 +13,7 @@
  <div id="container">
 		<div id="content">
 		<jsp:include page="/WEB-INF/template/_manager.jsp"></jsp:include>
-		Table of search
+		
 		</div>
  </div>
  
