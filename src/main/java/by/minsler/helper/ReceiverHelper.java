@@ -94,6 +94,23 @@ public class ReceiverHelper {
 		return result;
 	}
 
+	public static void search(HttpServletRequest request) {
+		ExpenseReceiverDAO erdao = MysqlExpenseReceiverDAO.getInstance();
+		String name = request.getParameter("name");
+		if (name == null || name.trim().equals("")) {
+			logger.info("receiver parameter not valid");
+			request.setAttribute("flash", "receiver parameter not valid");
+			logger.info("added flash to request");
+			return;
+		}
+		ArrayList<Receiver> list = erdao.searchReceivers(name);
+		logger.info("get all receiver");
+		request.setAttribute("listreceiver", list);
+		logger.info("added list receiver to request");
+		return;
+
+	}
+
 	// public static void init(HttpServletRequest request) {
 	// int count = 0;
 	// logger.info("tryed init receiver table");

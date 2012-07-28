@@ -36,6 +36,9 @@ public class ReceiverController extends HttpServlet {
 			ReceiverHelper.delete(request);
 			ReceiverHelper.getAll(request);
 			view += "showall.jsp";
+		} else if (request.getParameter("buttonSearchByName") != null) {
+			ReceiverHelper.search(request);
+			view += "showall.jsp";
 		} else if (request.getParameter("buttonEdit") != null) {
 			int id = Integer.parseInt(request.getParameter("id"));
 			request.setAttribute("receiver", ReceiverHelper.get(id));

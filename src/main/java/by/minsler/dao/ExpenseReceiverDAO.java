@@ -19,6 +19,8 @@ public interface ExpenseReceiverDAO {
 
 	ArrayList<Receiver> getReceivers();
 
+	ArrayList<Receiver> searchReceivers(String name);
+
 	Receiver getReceiver(int num);
 
 	int addReceiver(Receiver receiver);

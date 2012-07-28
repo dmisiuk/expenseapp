@@ -26,6 +26,7 @@ public class MysqlExpenseReceiverDAO implements ExpenseReceiverDAO {
 	public static final String insertReceiver = "insert into receivers(num, name) values(?,?)";
 	public static final String deleteByNumReceiver = "delete from receivers where num=?";
 	public static final String updateByNumReceiver = "update receivers set name=? where num=?";
+	public static final String searchByNameReceiver = "select * from receivers where name rlike '.*?.*'";
 
 	private static Statement selectAllExpensesStatement = null;
 	private static PreparedStatement selectByNumExpenseStatement = null;
@@ -37,6 +38,9 @@ public class MysqlExpenseReceiverDAO implements ExpenseReceiverDAO {
 	private static PreparedStatement insertReceiverStatement = null;
 	private static PreparedStatement deleteByNumReceiverStatement = null;
 	private static PreparedStatement updateByNumReceiverStatement = null;
+
+	// TO-DO create PreparedStatement for it
+	private static Statement searchByNameReceiverStatement = null;
 
 	private MysqlExpenseReceiverDAO() {
 		connection = ConnectionInit.getConnection();
@@ -69,6 +73,7 @@ public class MysqlExpenseReceiverDAO implements ExpenseReceiverDAO {
 					.prepareStatement(deleteByNumReceiver);
 			updateByNumReceiverStatement = connection
 					.prepareStatement(updateByNumReceiver);
+			searchByNameReceiverStatement = connection.createStatement();
 
 		} catch (SQLException e) {
 			System.out.println("sql exception on create statements"
@@ -254,5 +259,27 @@ public class MysqlExpenseReceiverDAO implements ExpenseReceiverDAO {
 	protected void finalize() throws Throwable {
 		super.finalize();
 		closeConnection();
+	}
+
+	@Override
+	public ArrayList<Receiver> searchReceivers(String name) {
+		ArrayList<Receiver> list = new ArrayList<Receiver>();
+
+		try {
+			// searchByNameReceiverStatement.clearParameters();
+			// searchByNameReceiverStatement.setString(1, name);
+			ResultSet result = searchByNameReceiverStatement
+					.executeQuery("select * from receivers where name rlike '.*"
+							+ name + ".*'");
+			while (result.next()) {
+				Receiver receiver = new Receiver();
+				receiver.setNum(result.getInt("num"));
+				receiver.setName(result.getString("name"));
+				list.add(receiver);
+			}
+		} catch (SQLException e) {
+			System.out.println("search:error sql " + e.getMessage());
+		}
+		return list;
 	}
 }
