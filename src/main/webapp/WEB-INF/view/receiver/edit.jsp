@@ -28,7 +28,7 @@ Receiver receiver = (Receiver) request.getAttribute("receiver");
 		  			<input type="hidden" name="id" value ="<%= receiver.getNum()%>">
 			  		<ul>
 			  			<li>ID: <%= receiver.getNum()%></li>
-			  			<li>Name:<input type="text" name="name"  value="<%= receiver.getName()%>"></li>
+			  			<li> Name <textarea name="name" cols="15" rows="1"><%= receiver.getName()%></textarea>
 			  			<li><input type="submit" name="buttonUpdate" value="Uptade"></li>
 			  		</ul>
 		  		

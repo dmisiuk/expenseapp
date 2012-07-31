@@ -269,8 +269,8 @@ public class MysqlExpenseReceiverDAO implements ExpenseReceiverDAO {
 			// searchByNameReceiverStatement.clearParameters();
 			// searchByNameReceiverStatement.setString(1, name);
 			ResultSet result = searchByNameReceiverStatement
-					.executeQuery("select * from receivers where name rlike '.*"
-							+ name + ".*'");
+					.executeQuery("select * from receivers where name like '%"
+							+ name + "%'");
 			while (result.next()) {
 				Receiver receiver = new Receiver();
 				receiver.setNum(result.getInt("num"));
