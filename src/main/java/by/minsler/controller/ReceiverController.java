@@ -8,7 +8,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import by.minsler.helper.ReceiverHelper;
+import by.minsler.helper.CreateReceiverCommand;
+import by.minsler.helper.DeleteReceiverCommand;
+import by.minsler.helper.EditReceiverCommand;
+import by.minsler.helper.GetAllReceiverCommand;
+import by.minsler.helper.ReceiverCommand;
+import by.minsler.helper.SearchReceiverCommand;
+import by.minsler.helper.UpdateReceiverCommand;
 
 public class ReceiverController extends HttpServlet {
 
@@ -21,35 +27,37 @@ public class ReceiverController extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		String view = "/WEB-INF/view/receiver/";
 
+		ReceiverCommand rcommand = null;
 		if (request.getParameter("buttonShowAll") != null) {
-			ReceiverHelper.getAll(request);
+			rcommand = new GetAllReceiverCommand();
 			view += "showall.jsp";
 		} else if (request.getParameter("buttonNew") != null) {
 			view += "new.jsp";
 		} else if (request.getParameter("buttonCreate") != null) {
-			ReceiverHelper.create(request);
-			ReceiverHelper.getAll(request);
+			rcommand = new CreateReceiverCommand();
 			view += "showall.jsp";
 		} else if (request.getParameter("buttonSearch") != null) {
 			view += "search.jsp";
 		} else if (request.getParameter("buttonDelete") != null) {
-			ReceiverHelper.delete(request);
-			ReceiverHelper.getAll(request);
+			rcommand = new DeleteReceiverCommand();
 			view += "showall.jsp";
 		} else if (request.getParameter("buttonSearchByName") != null) {
-			ReceiverHelper.search(request);
+			rcommand = new SearchReceiverCommand();
 			view += "showall.jsp";
 		} else if (request.getParameter("buttonEdit") != null) {
-			int id = Integer.parseInt(request.getParameter("id"));
-			request.setAttribute("receiver", ReceiverHelper.get(id));
+			rcommand = new EditReceiverCommand();
 			view += "edit.jsp";
 		} else if (request.getParameter("buttonUpdate") != null) {
-			ReceiverHelper.update(request);
-			ReceiverHelper.getAll(request);
+			rcommand = new UpdateReceiverCommand();
 			view += "showall.jsp";
 		} else {
 			view += "manage.jsp";
 		}
+
+		if (rcommand != null) {
+			rcommand.execute(request);
+		}
+
 		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 		dispatcher.include(request, response);
 	}
